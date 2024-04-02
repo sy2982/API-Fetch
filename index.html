@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Random Users API Fetching</title>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+</head>
+<body>
+
+<table id="usersTable">
+  <thead>
+    <tr>
+      <th>First Name</th>
+      <th>City</th>
+    </tr>
+  </thead>
+  <tbody id="usersBody">
+  </tbody>
+</table>
+
+<script>
+// Fetch data from the API
+fetch('https://randomuser.me/api/?results=5')
+  .then(response => response.json())
+  .then(data => {
+    const users = data.results;
+    const tableBody = document.getElementById('usersBody');
+
+    // Loop through the users and create table rows
+    users.forEach(user => {
+      const row = document.createElement('tr');
+      const firstNameCell = document.createElement('td');
+      const cityCell = document.createElement('td');
+
+      // Set the content of the cells
+      firstNameCell.textContent = user.name.first;
+      cityCell.textContent = user.location.city;
+
+      // Append cells to the row
+      row.appendChild(firstNameCell);
+      row.appendChild(cityCell);
+
+      // Append row to the table body
+      tableBody.appendChild(row);
+    });
+  })
+  .catch(error => {
+    console.error('Error fetching data:', error);
+  });
+</script>
+
+</body>
+</html>
